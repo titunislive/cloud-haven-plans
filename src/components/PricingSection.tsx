@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import PricingToggle from './PricingToggle';
 import PricingCard from './PricingCard';
+import HostingPlanToggle from './HostingPlanToggle';
 
 const sharedHostingFeatures = [
   "10 GB SSD Storage",
@@ -32,8 +33,36 @@ const dedicatedHostingFeatures = [
   "DDoS Protection",
 ];
 
+const PRICING_PLANS = [
+  {
+    type: "shared",
+    title: "Shared Hosting",
+    price: { monthly: 3.99, annual: 39.99 },
+    description: "Perfect for small websites and blogs",
+    features: sharedHostingFeatures,
+  },
+  {
+    type: "vps",
+    title: "VPS Hosting",
+    price: { monthly: 19.99, annual: 191.99 },
+    description: "Ideal for growing businesses with moderate traffic",
+    features: vpsHostingFeatures,
+    isPopular: true,
+  },
+  {
+    type: "dedicated",
+    title: "Dedicated Hosting",
+    price: { monthly: 89.99, annual: 863.99 },
+    description: "Enterprise-grade solution for high-performance needs",
+    features: dedicatedHostingFeatures,
+  },
+];
+
 const PricingSection = () => {
   const [isAnnual, setIsAnnual] = useState(false);
+  const [selectedType, setSelectedType] = useState("shared");
+
+  const filteredPlans = PRICING_PLANS.filter((plan) => plan.type === selectedType);
 
   return (
     <div id="hosting" className="bg-white py-12 sm:py-16 lg:py-20">
@@ -46,37 +75,22 @@ const PricingSection = () => {
             Select the perfect hosting solution for your website needs
           </p>
         </div>
-        
+
+        <HostingPlanToggle selected={selectedType} setSelected={setSelectedType} />
         <PricingToggle isAnnual={isAnnual} setIsAnnual={setIsAnnual} />
 
-        <div className="grid grid-cols-1 gap-6 lg:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:gap-10">
-          {/* Shared Hosting */}
-          <PricingCard
-            title="Shared Hosting"
-            price={{ monthly: 3.99, annual: 39.99 }}
-            description="Perfect for small websites and blogs"
-            features={sharedHostingFeatures}
-            isAnnual={isAnnual}
-          />
-          
-          {/* VPS Hosting */}
-          <PricingCard
-            title="VPS Hosting"
-            price={{ monthly: 19.99, annual: 191.99 }}
-            description="Ideal for growing businesses with moderate traffic"
-            features={vpsHostingFeatures}
-            isPopular={true}
-            isAnnual={isAnnual}
-          />
-          
-          {/* Dedicated Hosting */}
-          <PricingCard
-            title="Dedicated Hosting"
-            price={{ monthly: 89.99, annual: 863.99 }}
-            description="Enterprise-grade solution for high-performance needs"
-            features={dedicatedHostingFeatures}
-            isAnnual={isAnnual}
-          />
+        <div className="grid grid-cols-1 gap-6 lg:gap-8 sm:grid-cols-1 lg:grid-cols-1 xl:gap-10 place-items-center">
+          {filteredPlans.map((plan, idx) => (
+            <PricingCard
+              key={plan.title}
+              title={plan.title}
+              price={plan.price}
+              description={plan.description}
+              features={plan.features}
+              isPopular={plan.isPopular}
+              isAnnual={isAnnual}
+            />
+          ))}
         </div>
       </div>
     </div>
