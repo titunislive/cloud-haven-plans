@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const CTASection = () => {
   return (
@@ -20,9 +21,11 @@ const CTASection = () => {
                 Launch your website today with our hassle-free hosting solutions.
               </p>
               <div className="mt-8">
-                <Button className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-brand-blue bg-white hover:bg-gray-50 sm:px-10">
-                  Get Started <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
+                <Link to="/signup">
+                  <Button className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-brand-blue bg-white hover:bg-gray-50 sm:px-10">
+                    Get Started <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
                 <Button variant="outline" className="ml-4 inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white border-white hover:bg-white/10 sm:px-10">
                   Contact Sales
                 </Button>
@@ -36,3 +39,4 @@ const CTASection = () => {
 };
 
 export default CTASection;
+
