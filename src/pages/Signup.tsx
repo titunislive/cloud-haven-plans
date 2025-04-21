@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, User } from "lucide-react";
 import { saveSignupUser } from "@/lib/firebase-db";
 
@@ -11,6 +11,7 @@ const Signup = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.id]: e.target.value });
@@ -25,6 +26,8 @@ const Signup = () => {
       await saveSignupUser(form);
       setSuccess(true);
       setForm({ name: "", email: "", password: "" });
+      // NAVIGATE TO PROFILE & PASS EMAIL
+      navigate("/profile", { state: { email: form.email } });
     } catch (err) {
       setError("Something went wrong.");
     } finally {
@@ -63,7 +66,7 @@ const Signup = () => {
           </Button>
         </form>
         {error && <div className="mt-4 text-center text-red-500 text-sm">{error}</div>}
-        {success && <div className="mt-4 text-center text-green-600 text-sm">Signup successful! User saved to database.</div>}
+        {/* The signup success message is hidden, as navigation is now automatic */}
         <div className="mt-4 text-center text-sm">
           Already have an account?{" "}
           <Link to="/login" className="text-brand-blue hover:underline font-semibold">
@@ -81,4 +84,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
