@@ -37,8 +37,11 @@ const Navbar = () => {
             <Link to="/login">
               <Button variant="ghost" className="text-gray-500 hover:text-gray-700">Login</Button>
             </Link>
+            {/* Get Started button: more prominent than Sign Up for call-to-action */}
             <Link to="/signup">
-              <Button className="bg-gradient-to-r from-brand-blue to-brand-teal text-white ml-4">Sign Up</Button>
+              <Button className="bg-gradient-to-r from-brand-blue to-brand-teal text-white ml-4 font-semibold shadow-md px-6 py-2">
+                Get Started
+              </Button>
             </Link>
           </div>
           <div className="flex items-center sm:hidden">
@@ -79,8 +82,11 @@ const Navbar = () => {
               <Link to="/login">
                 <Button variant="outline" className="w-full">Login</Button>
               </Link>
+              {/* Only show Get Started button in mobile; hide Sign Up to avoid redundancy */}
               <Link to="/signup">
-                <Button className="w-full bg-gradient-to-r from-brand-blue to-brand-teal text-white">Sign Up</Button>
+                <Button className="w-full bg-gradient-to-r from-brand-blue to-brand-teal text-white font-semibold shadow-md px-6 py-2">
+                  Get Started
+                </Button>
               </Link>
             </div>
           </div>
