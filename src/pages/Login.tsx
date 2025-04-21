@@ -33,9 +33,15 @@ const Login = () => {
             Sign Up
           </Link>
         </div>
+        <div className="mt-3 text-center text-sm">
+          <Link to="/" className="text-gray-600 hover:text-brand-blue hover:underline">
+            &larr; Back to Home
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Login;
+
