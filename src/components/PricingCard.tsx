@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface PricingCardProps {
   title: string;
@@ -23,8 +24,13 @@ const PricingCard = ({
   isPopular = false,
   isAnnual
 }: PricingCardProps) => {
+  const navigate = useNavigate();
   const displayPrice = isAnnual ? price.annual : price.monthly;
   const billingPeriod = isAnnual ? '/year' : '/month';
+
+  const handleGetStarted = () => {
+    navigate("/signup");
+  };
 
   return (
     <div className={`pricing-card ${isPopular ? 'pricing-card-popular' : ''}`}>
@@ -48,6 +54,7 @@ const PricingCard = ({
       </ul>
       
       <Button 
+        onClick={handleGetStarted}
         className={`mt-8 w-full ${
           isPopular 
             ? 'bg-brand-blue hover:bg-blue-700 text-white' 
@@ -61,3 +68,4 @@ const PricingCard = ({
 };
 
 export default PricingCard;
+
