@@ -3,25 +3,60 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Edit } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import EditProfileForm from "@/components/EditProfileForm";
+import { getDatabase, ref, query, orderByChild, equalTo, get } from "firebase/database";
+import { firebaseApp } from "@/lib/firebase";
 
 const Profile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<{ name: string; email: string; isLoggedIn: boolean } | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [planDetails, setPlanDetails] = useState<{
+    title: string;
+    price: number;
+    billingCycle: string;
+  } | null>(null);
 
   useEffect(() => {
     const userData = localStorage.getItem("cloudscape_user");
     if (userData) {
       const parsedUser = JSON.parse(userData);
       setUser(parsedUser);
+      fetchUserPlan(parsedUser.email);
     } else {
       navigate("/login");
     }
   }, [navigate]);
+
+  const fetchUserPlan = async (userEmail: string) => {
+    try {
+      const db = getDatabase(firebaseApp);
+      const paymentsRef = ref(db, "payments");
+      const userPaymentsQuery = query(
+        paymentsRef,
+        orderByChild("userId"),
+        equalTo(userEmail)
+      );
+      
+      const snapshot = await get(userPaymentsQuery);
+      if (snapshot.exists()) {
+        // Get the most recent payment entry
+        const payments = Object.values(snapshot.val());
+        const latestPayment = payments[payments.length - 1] as any;
+        
+        setPlanDetails({
+          title: latestPayment.planSelected,
+          price: latestPayment.planPrice,
+          billingCycle: latestPayment.billingCycle,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching plan details:", error);
+    }
+  };
 
   const handleUpdateUser = (updatedUser: any) => {
     setUser(updatedUser);
@@ -54,14 +89,32 @@ const Profile = () => {
               >
                 <Edit className="mr-2" size={18} /> Edit Profile
               </Button>
-              
-              {/* Removed userServices section because userServices is undefined */}
-              <p className="text-gray-500 mt-10 text-center">You don't have any active services.</p>
-              <div className="mt-6">
-                <Button className="w-full bg-gradient-to-r from-brand-blue to-brand-teal text-white">
-                  Browse Available Services
-                </Button>
-              </div>
+
+              {planDetails ? (
+                <Card className="mt-8 p-6 w-full bg-gray-50">
+                  <h2 className="text-xl font-semibold mb-4">Current Plan</h2>
+                  <div className="space-y-2">
+                    <p className="text-lg font-medium text-brand-blue">
+                      {planDetails.title}
+                    </p>
+                    <p className="text-gray-600">
+                      ${planDetails.price}/{planDetails.billingCycle === 'annual' ? 'year' : 'month'}
+                    </p>
+                  </div>
+                </Card>
+              ) : (
+                <Card className="mt-8 p-6 w-full bg-gray-50">
+                  <p className="text-gray-500 text-center">No active plan</p>
+                  <div className="mt-4">
+                    <Button 
+                      className="w-full bg-gradient-to-r from-brand-blue to-brand-teal text-white"
+                      onClick={() => navigate('/')}
+                    >
+                      Browse Available Plans
+                    </Button>
+                  </div>
+                </Card>
+              )}
             </div>
           ) : (
             <div>
