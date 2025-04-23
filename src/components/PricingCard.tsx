@@ -29,7 +29,16 @@ const PricingCard = ({
   const billingPeriod = isAnnual ? '/year' : '/month';
 
   const handleGetStarted = () => {
-    navigate("/signup");
+    // Navigate to the BillDesk page with plan details
+    navigate("/billdesk", { 
+      state: { 
+        planDetails: {
+          title,
+          price: displayPrice,
+          isAnnual
+        }
+      } 
+    });
   };
 
   return (
@@ -68,4 +77,3 @@ const PricingCard = ({
 };
 
 export default PricingCard;
-
