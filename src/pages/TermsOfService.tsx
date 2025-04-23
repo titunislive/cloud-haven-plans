@@ -5,7 +5,7 @@ const TermsOfService = () => (
   <div className="max-w-3xl mx-auto py-12 px-4">
     <h1 className="text-3xl font-bold mb-6">Terms of Service</h1>
     <p className="mb-4 text-gray-600">
-      Please read these Terms of Service ("Terms") carefully before using CloudHaven. By accessing or using our services, you agree to be bound by these Terms.
+      Please read these Terms of Service ("Terms") carefully before using Cloudscape. By accessing or using our services, you agree to be bound by these Terms.
     </p>
     <h2 className="text-xl font-semibold mt-8 mb-3">Use of Services</h2>
     <ul className="list-disc pl-6 text-gray-600">
@@ -23,7 +23,7 @@ const TermsOfService = () => (
     </p>
     <h2 className="text-xl font-semibold mt-8 mb-3">Contact Us</h2>
     <p className="text-gray-600">
-      If you have any questions about these Terms, contact us at <a className="text-brand-blue" href="mailto:support@cloudhaven.com">support@cloudhaven.com</a>
+      If you have any questions about these Terms, contact us at <a className="text-brand-blue" href="mailto:support@cloudscape.com">support@cloudscape.com</a>
     </p>
   </div>
 );

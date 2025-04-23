@@ -2,10 +2,15 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  
+  // Check if user is logged in
+  const isLoggedIn = location.state?.isLoggedIn;
+  const userName = location.state?.name;
 
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50">
@@ -13,12 +18,12 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <span className="text-2xl font-bold gradient-text">CloudHaven</span>
+              <span className="text-2xl font-bold gradient-text">Cloudscape</span>
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <a href="#" className="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              <Link to="/" className="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Home
-              </a>
+              </Link>
               <a href="#hosting" className="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Hosting
               </a>
@@ -34,15 +39,25 @@ const Navbar = () => {
             </div>
           </div>
           <div className="hidden sm:flex items-center">
-            <Link to="/login">
-              <Button variant="ghost" className="text-gray-500 hover:text-gray-700">Login</Button>
-            </Link>
-            {/* Get Started button: more prominent than Sign Up for call-to-action */}
-            <Link to="/signup">
-              <Button className="bg-gradient-to-r from-brand-blue to-brand-teal text-white ml-4 font-semibold shadow-md px-6 py-2">
-                Get Started
-              </Button>
-            </Link>
+            {isLoggedIn ? (
+              <>
+                <span className="text-gray-600 mr-3">Welcome, {userName || 'User'}</span>
+                <Link to="/profile">
+                  <Button variant="ghost" className="text-gray-500 hover:text-gray-700">Profile</Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="ghost" className="text-gray-500 hover:text-gray-700">Login</Button>
+                </Link>
+                <Link to="/signup">
+                  <Button className="bg-gradient-to-r from-brand-blue to-brand-teal text-white ml-4 font-semibold shadow-md px-6 py-2">
+                    Get Started
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
           <div className="flex items-center sm:hidden">
             <button
@@ -59,13 +74,12 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu, show/hide based on menu state */}
       {isMenuOpen && (
         <div className="sm:hidden" id="mobile-menu">
           <div className="pt-2 pb-3 space-y-1">
-            <a href="#" className="bg-gray-50 border-brand-blue text-brand-blue block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+            <Link to="/" className="bg-gray-50 border-brand-blue text-brand-blue block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
               Home
-            </a>
+            </Link>
             <a href="#hosting" className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
               Hosting
             </a>
@@ -79,15 +93,22 @@ const Navbar = () => {
               Contact
             </a>
             <div className="mt-4 flex flex-col space-y-2 px-3">
-              <Link to="/login">
-                <Button variant="outline" className="w-full">Login</Button>
-              </Link>
-              {/* Only show Get Started button in mobile; hide Sign Up to avoid redundancy */}
-              <Link to="/signup">
-                <Button className="w-full bg-gradient-to-r from-brand-blue to-brand-teal text-white font-semibold shadow-md px-6 py-2">
-                  Get Started
-                </Button>
-              </Link>
+              {isLoggedIn ? (
+                <Link to="/profile">
+                  <Button variant="outline" className="w-full">Profile</Button>
+                </Link>
+              ) : (
+                <>
+                  <Link to="/login">
+                    <Button variant="outline" className="w-full">Login</Button>
+                  </Link>
+                  <Link to="/signup">
+                    <Button className="w-full bg-gradient-to-r from-brand-blue to-brand-teal text-white font-semibold shadow-md px-6 py-2">
+                      Get Started
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

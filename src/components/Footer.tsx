@@ -10,7 +10,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h2 className="text-xl font-bold gradient-text mb-4">CloudHaven</h2>
+            <h2 className="text-xl font-bold gradient-text mb-4">Cloudscape</h2>
             <p className="text-gray-500 mb-4">
               Reliable hosting solutions for businesses of all sizes. Fast, secure, and affordable.
             </p>
@@ -96,7 +96,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center text-gray-500">
                 <Mail size={16} className="mr-2" />
-                <span>support@cloudhaven.com</span>
+                <span>support@cloudscape.com</span>
               </li>
               <li className="flex items-center text-gray-500">
                 <PhoneCall size={16} className="mr-2" />
@@ -108,7 +108,7 @@ const Footer = () => {
         
         <div className="mt-12 pt-8 border-t border-gray-200">
           <p className="text-sm text-gray-400 text-center">
-            © {new Date().getFullYear()} CloudHaven. All rights reserved.
+            © {new Date().getFullYear()} Cloudscape. All rights reserved.
           </p>
         </div>
       </div>

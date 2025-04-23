@@ -5,7 +5,7 @@ const PrivacyPolicy = () => (
   <div className="max-w-3xl mx-auto py-12 px-4">
     <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
     <p className="mb-4 text-gray-600">
-      CloudHaven values your privacy and is committed to protecting your personal data. This Privacy Policy outlines how we collect, use, and safeguard your information.
+      Cloudscape values your privacy and is committed to protecting your personal data. This Privacy Policy outlines how we collect, use, and safeguard your information.
     </p>
     <h2 className="text-xl font-semibold mt-8 mb-3">Information We Collect</h2>
     <ul className="list-disc pl-6 text-gray-600">
@@ -21,7 +21,7 @@ const PrivacyPolicy = () => (
     </ul>
     <h2 className="text-xl font-semibold mt-8 mb-3">Contact Us</h2>
     <p className="text-gray-600">
-      If you have questions about this Privacy Policy, please contact us at <a className="text-brand-blue" href="mailto:support@cloudhaven.com">support@cloudhaven.com</a>
+      If you have questions about this Privacy Policy, please contact us at <a className="text-brand-blue" href="mailto:support@cloudscape.com">support@cloudscape.com</a>
     </p>
   </div>
 );
