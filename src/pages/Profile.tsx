@@ -14,16 +14,15 @@ const Profile = () => {
   const [user, setUser] = useState<{ name: string; email: string; isLoggedIn: boolean } | null>(null);
 
   useEffect(() => {
-    const local = localStorage.getItem("cloudscape_user");
-    setUser(local ? JSON.parse(local) : null);
-  }, []);
-
-  useEffect(() => {
-    if (!user || !user.isLoggedIn) {
+    const userData = localStorage.getItem("cloudscape_user");
+    if (userData) {
+      const parsedUser = JSON.parse(userData);
+      setUser(parsedUser);
+    } else {
+      // Only navigate to login if there's no user data
       navigate("/login");
     }
-    // eslint-disable-next-line
-  }, [user]);
+  }, [navigate]);
 
   const name = user?.name || "User";
   const email = user?.email || "";
@@ -41,6 +40,11 @@ const Profile = () => {
   const handleChangePassword = () => {
     alert("Password change feature is not implemented yet. Implement it here!");
   };
+
+  // If we're still loading or no user is found, don't render the profile content
+  if (!user) {
+    return null; // Or you could return a loading spinner here
+  }
 
   return (
     <>
