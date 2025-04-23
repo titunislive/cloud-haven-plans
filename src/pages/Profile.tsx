@@ -1,6 +1,6 @@
 
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,13 +8,27 @@ import { Lock } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
 const Profile = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  
-  // Try to get user data from location state or localStorage
-  const email = location.state?.email;
-  const name = location.state?.name || "User";
-  
+
+  // Get user data from localStorage
+  const [user, setUser] = useState<{ name: string; email: string; isLoggedIn: boolean } | null>(null);
+
+  useEffect(() => {
+    const local = localStorage.getItem("cloudscape_user");
+    setUser(local ? JSON.parse(local) : null);
+  }, []);
+
+  useEffect(() => {
+    if (!user || !user.isLoggedIn) {
+      navigate("/login");
+    }
+    // eslint-disable-next-line
+  }, [user]);
+
+  const name = user?.name || "User";
+  const email = user?.email || "";
+
+  // Example service array could be extended from backend
   const userServices = [
     {
       name: "Basic Hosting Plan",
@@ -23,12 +37,6 @@ const Profile = () => {
       renewalDate: "2025-06-15"
     }
   ];
-
-  if (!email) {
-    // If accessed directly, send to login page
-    navigate("/login");
-    return null;
-  }
 
   const handleChangePassword = () => {
     alert("Password change feature is not implemented yet. Implement it here!");

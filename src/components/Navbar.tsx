@@ -1,16 +1,29 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Menu, X, LogOut } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [session, setSession] = useState<{isLoggedIn: boolean, name?: string} | null>(null);
   const location = useLocation();
-  
-  // Check if user is logged in
-  const isLoggedIn = location.state?.isLoggedIn;
-  const userName = location.state?.name;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const local = localStorage.getItem("cloudscape_user");
+    setSession(local ? JSON.parse(local) : null);
+  }, [location]);
+
+  const handleLogout = () => {
+    // Clear the session
+    localStorage.removeItem("cloudscape_user");
+    setSession(null);
+    navigate("/");
+  };
+
+  const isLoggedIn = session?.isLoggedIn;
+  const userName = session?.name;
 
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50">
@@ -45,6 +58,13 @@ const Navbar = () => {
                 <Link to="/profile">
                   <Button variant="ghost" className="text-gray-500 hover:text-gray-700">Profile</Button>
                 </Link>
+                <Button
+                  variant="ghost"
+                  className="text-gray-500 hover:text-red-600 ml-2"
+                  onClick={handleLogout}
+                >
+                  <LogOut size={18} className="mr-1" /> Logout
+                </Button>
               </>
             ) : (
               <>
@@ -94,9 +114,18 @@ const Navbar = () => {
             </a>
             <div className="mt-4 flex flex-col space-y-2 px-3">
               {isLoggedIn ? (
-                <Link to="/profile">
-                  <Button variant="outline" className="w-full">Profile</Button>
-                </Link>
+                <>
+                  <Link to="/profile">
+                    <Button variant="outline" className="w-full">Profile</Button>
+                  </Link>
+                  <Button
+                    variant="outline"
+                    className="w-full text-red-600"
+                    onClick={handleLogout}
+                  >
+                    <LogOut size={18} className="mr-1" /> Logout
+                  </Button>
+                </>
               ) : (
                 <>
                   <Link to="/login">

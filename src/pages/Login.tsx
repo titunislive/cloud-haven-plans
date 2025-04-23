@@ -24,47 +24,42 @@ const Login = () => {
     try {
       const db = getDatabase(firebaseApp);
       const usersRef = ref(db, "users");
-      
-      // Get all users and find matching email
       const snapshot = await get(usersRef);
-      
+
       if (snapshot.exists()) {
         const users = snapshot.val();
         let foundUser = null;
         let userId = null;
-        
-        // Manually search for the user with matching email
-        Object.keys(users).forEach(key => {
+
+        Object.keys(users).forEach((key) => {
           if (users[key].email === form.email) {
             foundUser = users[key];
             userId = key;
           }
         });
-        
+
         if (foundUser) {
           if (foundUser.password === form.password) {
-            // Login successful
             toast.success("Login successful!");
-            
-            // Store user data and navigate to profile page
-            navigate("/profile", { 
-              state: { 
-                isLoggedIn: true, 
+            // Store session to localStorage
+            localStorage.setItem(
+              "cloudscape_user",
+              JSON.stringify({
+                isLoggedIn: true,
                 email: foundUser.email,
                 name: foundUser.name,
                 userId: userId
-              }
-            });
+              })
+            );
+            // redirect to Profile
+            navigate("/profile");
           } else {
-            // Password incorrect
             toast.error("Incorrect password");
           }
         } else {
-          // User not found
           toast.error("User not found");
         }
       } else {
-        // No users found
         toast.error("No users found");
       }
     } catch (error) {

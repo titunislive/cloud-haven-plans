@@ -1,13 +1,10 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import BackToHomeButton from "@/components/BackToHomeButton";
 
 const TermsOfService = () => (
   <div className="max-w-3xl mx-auto py-12 px-4">
-    <Link to="/" className="inline-flex items-center text-gray-600 hover:text-brand-blue mb-6">
-      <ArrowLeft className="mr-2" size={16} /> Back to Home
-    </Link>
+    <BackToHomeButton />
     <h1 className="text-3xl font-bold mb-6">Terms of Service</h1>
     <p className="mb-4 text-gray-600">
       Please read these Terms of Service ("Terms") carefully before using Cloudscape. By accessing or using our services, you agree to be bound by these Terms.
