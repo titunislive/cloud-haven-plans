@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Menu, X, LogOut } from "lucide-react";
+import { Menu, X, LogOut, User } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
@@ -56,7 +56,12 @@ const Navbar = () => {
               <>
                 <span className="text-gray-600 mr-3">Welcome, {userName || 'User'}</span>
                 <Link to="/profile">
-                  <Button variant="ghost" className="text-gray-500 hover:text-gray-700">Profile</Button>
+                  <Button 
+                    variant="ghost" 
+                    className="text-gray-500 hover:text-gray-700 flex items-center"
+                  >
+                    <User size={18} className="mr-1" /> Profile
+                  </Button>
                 </Link>
                 <Button
                   variant="ghost"
@@ -94,6 +99,7 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Mobile menu */}
       {isMenuOpen && (
         <div className="sm:hidden" id="mobile-menu">
           <div className="pt-2 pb-3 space-y-1">
@@ -116,7 +122,9 @@ const Navbar = () => {
               {isLoggedIn ? (
                 <>
                   <Link to="/profile">
-                    <Button variant="outline" className="w-full">Profile</Button>
+                    <Button variant="outline" className="w-full flex items-center">
+                      <User size={18} className="mr-1" /> Profile
+                    </Button>
                   </Link>
                   <Button
                     variant="outline"

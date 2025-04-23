@@ -40,7 +40,6 @@ const Login = () => {
 
         if (foundUser) {
           if (foundUser.password === form.password) {
-            toast.success("Login successful!");
             // Store session to localStorage
             localStorage.setItem(
               "cloudscape_user",
@@ -51,8 +50,10 @@ const Login = () => {
                 userId: userId
               })
             );
-            // redirect to Profile
-            navigate("/profile");
+            
+            // Show success toast and redirect to home page
+            toast.success("Login successful!");
+            navigate("/");  // Redirect to home page after login
           } else {
             toast.error("Incorrect password");
           }
@@ -138,3 +139,4 @@ const Login = () => {
 };
 
 export default Login;
+
