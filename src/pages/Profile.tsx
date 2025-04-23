@@ -19,6 +19,7 @@ const Profile = () => {
     price: number;
     billingCycle: string;
   } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const userData = localStorage.getItem("cloudscape_user");
@@ -33,16 +34,22 @@ const Profile = () => {
 
   const fetchUserPlan = async (userEmail: string) => {
     try {
+      setIsLoading(true);
       const db = getDatabase(firebaseApp);
       const paymentsRef = ref(db, "payments");
+      
+      // Fix: Query by correct field name that matches what's stored in BillDesk.tsx
       const userPaymentsQuery = query(
         paymentsRef,
         orderByChild("userId"),
         equalTo(userEmail)
       );
       
+      console.log("Fetching plan for user:", userEmail);
       const snapshot = await get(userPaymentsQuery);
+      
       if (snapshot.exists()) {
+        console.log("Payment data found:", snapshot.val());
         // Get the most recent payment entry
         const payments = Object.values(snapshot.val());
         const latestPayment = payments[payments.length - 1] as any;
@@ -52,9 +59,16 @@ const Profile = () => {
           price: latestPayment.planPrice,
           billingCycle: latestPayment.billingCycle,
         });
+        console.log("Set plan details:", latestPayment);
+      } else {
+        console.log("No payment data found for user");
+        setPlanDetails(null);
       }
     } catch (error) {
       console.error("Error fetching plan details:", error);
+      setPlanDetails(null);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -90,7 +104,11 @@ const Profile = () => {
                 <Edit className="mr-2" size={18} /> Edit Profile
               </Button>
 
-              {planDetails ? (
+              {isLoading ? (
+                <Card className="mt-8 p-6 w-full bg-gray-50">
+                  <p className="text-gray-500 text-center">Loading plan information...</p>
+                </Card>
+              ) : planDetails ? (
                 <Card className="mt-8 p-6 w-full bg-gray-50">
                   <h2 className="text-xl font-semibold mb-4">Current Plan</h2>
                   <div className="space-y-2">

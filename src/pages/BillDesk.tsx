@@ -61,6 +61,11 @@ const BillDesk = () => {
     setIsSubmitting(true);
     
     try {
+      // Get current user from localStorage
+      const currentUser = localStorage.getItem("cloudscape_user") 
+        ? JSON.parse(localStorage.getItem("cloudscape_user") || "{}")
+        : { email: "guest" };
+      
       // Only store PCI-DSS compliant info (no full card numbers, no CVV)
       const paymentInfo = {
         cardholderName: data.cardholderName,
@@ -70,10 +75,10 @@ const BillDesk = () => {
         planSelected: planDetails.title,
         planPrice: planDetails.price,
         billingCycle: planDetails.isAnnual ? 'annual' : 'monthly',
-        userId: localStorage.getItem("cloudscape_user") 
-          ? JSON.parse(localStorage.getItem("cloudscape_user") || "{}").email 
-          : "guest",
+        userId: currentUser.email, // Ensure this matches what we query in Profile.tsx
       };
+
+      console.log("Saving payment info:", paymentInfo);
 
       // Store compliant payment info in Firebase
       const db = getDatabase(firebaseApp);
