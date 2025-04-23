@@ -1,8 +1,13 @@
 
 import React from "react";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
 const PrivacyPolicy = () => (
   <div className="max-w-3xl mx-auto py-12 px-4">
+    <Link to="/" className="inline-flex items-center text-gray-600 hover:text-brand-blue mb-6">
+      <ArrowLeft className="mr-2" size={16} /> Back to Home
+    </Link>
     <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
     <p className="mb-4 text-gray-600">
       Cloudscape values your privacy and is committed to protecting your personal data. This Privacy Policy outlines how we collect, use, and safeguard your information.

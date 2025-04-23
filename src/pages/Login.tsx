@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Lock } from "lucide-react";
-import { getDatabase, ref, get, query, orderByChild, equalTo } from "firebase/database";
+import { Mail, Lock, ArrowLeft } from "lucide-react";
+import { getDatabase, ref, get } from "firebase/database";
 import { firebaseApp } from "@/lib/firebase";
 import { toast } from "sonner";
 
@@ -25,33 +25,47 @@ const Login = () => {
       const db = getDatabase(firebaseApp);
       const usersRef = ref(db, "users");
       
-      // Find user with matching email
-      const userQuery = query(usersRef, orderByChild("email"), equalTo(form.email));
-      const snapshot = await get(userQuery);
+      // Get all users and find matching email
+      const snapshot = await get(usersRef);
       
       if (snapshot.exists()) {
-        // Get the first user with matching email
         const users = snapshot.val();
-        const userId = Object.keys(users)[0];
-        const user = users[userId];
+        let foundUser = null;
+        let userId = null;
         
-        if (user.password === form.password) {
-          // Login successful
-          toast.success("Login successful!");
-          
-          // Store user data and navigate to home
-          navigate("/", { state: { 
-            isLoggedIn: true, 
-            email: user.email,
-            name: user.name
-          }});
+        // Manually search for the user with matching email
+        Object.keys(users).forEach(key => {
+          if (users[key].email === form.email) {
+            foundUser = users[key];
+            userId = key;
+          }
+        });
+        
+        if (foundUser) {
+          if (foundUser.password === form.password) {
+            // Login successful
+            toast.success("Login successful!");
+            
+            // Store user data and navigate to profile page
+            navigate("/profile", { 
+              state: { 
+                isLoggedIn: true, 
+                email: foundUser.email,
+                name: foundUser.name,
+                userId: userId
+              }
+            });
+          } else {
+            // Password incorrect
+            toast.error("Incorrect password");
+          }
         } else {
-          // Password incorrect
-          toast.error("Incorrect password");
+          // User not found
+          toast.error("User not found");
         }
       } else {
-        // User not found
-        toast.error("User not found");
+        // No users found
+        toast.error("No users found");
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -64,6 +78,9 @@ const Login = () => {
   return (
     <div className="min-h-[70vh] flex justify-center items-center bg-gradient-to-tr from-brand-blue/5 to-brand-teal/5">
       <div className="w-full max-w-md p-8 bg-white dark:bg-card rounded-xl shadow-md border">
+        <Link to="/" className="inline-flex items-center text-gray-600 hover:text-brand-blue mb-6">
+          <ArrowLeft className="mr-2" size={16} /> Back to Home
+        </Link>
         <h2 className="text-2xl font-extrabold text-center text-brand-blue mb-6">Login to Cloudscape</h2>
         <form className="space-y-5" onSubmit={handleLogin}>
           <div>
@@ -114,9 +131,10 @@ const Login = () => {
             Sign Up
           </Link>
         </div>
-        <div className="mt-3 text-center text-sm">
-          <Link to="/" className="text-gray-600 hover:text-brand-blue hover:underline">
-            &larr; Back to Home
+        <div className="mt-2 text-center text-xs">
+          By logging in, you agree to our{" "}
+          <Link to="/terms-of-service" className="text-brand-blue hover:underline">
+            Terms of Service
           </Link>
         </div>
       </div>
