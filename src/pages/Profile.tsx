@@ -1,6 +1,7 @@
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Edit } from "lucide-react";
@@ -54,33 +55,12 @@ const Profile = () => {
                 <Edit className="mr-2" size={18} /> Edit Profile
               </Button>
               
-              <div className="w-full mt-10">
-                <h2 className="text-xl font-bold mb-4 text-gray-800">Your Services</h2>
-                
-                {userServices.length > 0 ? (
-                  <div className="grid grid-cols-1 gap-4">
-                    {userServices.map((service, index) => (
-                      <Card key={index}>
-                        <CardHeader>
-                          <CardTitle>{service.name}</CardTitle>
-                          <CardDescription>Status: <span className="text-green-500 font-medium">{service.status}</span></CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-gray-600">{service.details}</p>
-                          <p className="mt-2 text-sm text-gray-500">Renewal date: {service.renewalDate}</p>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-500">You don't have any active services.</p>
-                )}
-                
-                <div className="mt-6">
-                  <Button className="w-full bg-gradient-to-r from-brand-blue to-brand-teal text-white">
-                    Browse Available Services
-                  </Button>
-                </div>
+              {/* Removed userServices section because userServices is undefined */}
+              <p className="text-gray-500 mt-10 text-center">You don't have any active services.</p>
+              <div className="mt-6">
+                <Button className="w-full bg-gradient-to-r from-brand-blue to-brand-teal text-white">
+                  Browse Available Services
+                </Button>
               </div>
             </div>
           ) : (
