@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +6,9 @@ import { Mail, Lock, ArrowLeft } from "lucide-react";
 import { getDatabase, ref, get } from "firebase/database";
 import { firebaseApp } from "@/lib/firebase";
 import { toast } from "sonner";
+import Navbar from "@/components/Navbar";
+import AnimatedBackground from "@/components/AnimatedBackground";
+import UpcomingServices from "@/components/UpcomingServices";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -72,71 +74,75 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-[70vh] flex justify-center items-center bg-gradient-to-tr from-brand-blue/5 to-brand-teal/5">
-      <div className="w-full max-w-md p-8 bg-white dark:bg-card rounded-xl shadow-md border">
-        <Link to="/" className="inline-flex items-center text-gray-600 hover:text-brand-blue mb-6">
-          <ArrowLeft className="mr-2" size={16} /> Back to Home
-        </Link>
-        <h2 className="text-2xl font-extrabold text-center text-brand-blue mb-6">Login to Cloudscape</h2>
-        <form className="space-y-5" onSubmit={handleLogin}>
-          <div>
-            <label className="block mb-1 text-sm font-medium text-gray-600" htmlFor="email">Email</label>
-            <div className="flex items-center border rounded-md px-2 bg-gray-50 focus-within:ring-2 focus-within:ring-brand-blue">
-              <Mail className="mr-2 text-gray-400" size={18} />
-              <Input 
-                id="email" 
-                type="email" 
-                autoComplete="email" 
-                placeholder="you@example.com" 
-                required 
-                className="bg-transparent border-0 p-0 focus:ring-0"
-                value={form.email}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </div>
-          </div>
-          <div>
-            <label className="block mb-1 text-sm font-medium text-gray-600" htmlFor="password">Password</label>
-            <div className="flex items-center border rounded-md px-2 bg-gray-50 focus-within:ring-2 focus-within:ring-brand-blue">
-              <Lock className="mr-2 text-gray-400" size={18} />
-              <Input 
-                id="password" 
-                type="password" 
-                autoComplete="current-password" 
-                placeholder="••••••••" 
-                required 
-                className="bg-transparent border-0 p-0 focus:ring-0"
-                value={form.password}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </div>
-          </div>
-          <Button 
-            type="submit" 
-            className="w-full bg-gradient-to-r from-brand-blue to-brand-teal text-white"
-            disabled={loading}
-          >
-            {loading ? "Logging in..." : "Login"}
-          </Button>
-        </form>
-        <div className="mt-4 text-center text-sm">
-          Don't have an account?{" "}
-          <Link to="/signup" className="text-brand-blue hover:underline font-semibold">
-            Sign Up
+    <>
+      <Navbar />
+      <AnimatedBackground />
+      <div className="min-h-[70vh] flex flex-col justify-center items-center relative">
+        <div className="w-full max-w-md p-8 bg-white/80 dark:bg-card/80 rounded-xl shadow-md border backdrop-blur-sm">
+          <Link to="/" className="inline-flex items-center text-gray-600 hover:text-brand-blue mb-6">
+            <ArrowLeft className="mr-2" size={16} /> Back to Home
           </Link>
+          <h2 className="text-2xl font-extrabold text-center text-brand-blue mb-6">Login to Cloudscape</h2>
+          <form className="space-y-5" onSubmit={handleLogin}>
+            <div>
+              <label className="block mb-1 text-sm font-medium text-gray-600" htmlFor="email">Email</label>
+              <div className="flex items-center border rounded-md px-2 bg-gray-50 focus-within:ring-2 focus-within:ring-brand-blue">
+                <Mail className="mr-2 text-gray-400" size={18} />
+                <Input 
+                  id="email" 
+                  type="email" 
+                  autoComplete="email" 
+                  placeholder="you@example.com" 
+                  required 
+                  className="bg-transparent border-0 p-0 focus:ring-0"
+                  value={form.email}
+                  onChange={handleChange}
+                  disabled={loading}
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block mb-1 text-sm font-medium text-gray-600" htmlFor="password">Password</label>
+              <div className="flex items-center border rounded-md px-2 bg-gray-50 focus-within:ring-2 focus-within:ring-brand-blue">
+                <Lock className="mr-2 text-gray-400" size={18} />
+                <Input 
+                  id="password" 
+                  type="password" 
+                  autoComplete="current-password" 
+                  placeholder="••••••••" 
+                  required 
+                  className="bg-transparent border-0 p-0 focus:ring-0"
+                  value={form.password}
+                  onChange={handleChange}
+                  disabled={loading}
+                />
+              </div>
+            </div>
+            <Button 
+              type="submit" 
+              className="w-full bg-gradient-to-r from-brand-blue to-brand-teal text-white"
+              disabled={loading}
+            >
+              {loading ? "Logging in..." : "Login"}
+            </Button>
+          </form>
+          <div className="mt-4 text-center text-sm">
+            Don't have an account?{" "}
+            <Link to="/signup" className="text-brand-blue hover:underline font-semibold">
+              Sign Up
+            </Link>
+          </div>
+          <div className="mt-2 text-center text-xs">
+            By logging in, you agree to our{" "}
+            <Link to="/terms-of-service" className="text-brand-blue hover:underline">
+              Terms of Service
+            </Link>
+          </div>
         </div>
-        <div className="mt-2 text-center text-xs">
-          By logging in, you agree to our{" "}
-          <Link to="/terms-of-service" className="text-brand-blue hover:underline">
-            Terms of Service
-          </Link>
-        </div>
+        <UpcomingServices />
       </div>
-    </div>
+    </>
   );
 };
 
 export default Login;
-
