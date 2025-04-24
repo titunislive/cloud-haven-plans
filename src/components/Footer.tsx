@@ -1,115 +1,125 @@
-
-import React from 'react';
-import { Facebook, Twitter, Instagram, Linkedin, Mail, PhoneCall } from "lucide-react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <div>
-            <h2 className="text-xl font-bold gradient-text mb-4">Cloudscape</h2>
-            <p className="text-gray-500 mb-4">
-              Reliable hosting solutions for businesses of all sizes. Fast, secure, and affordable.
+    <footer className="bg-white/80 backdrop-blur-sm border-t mt-auto">
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
+          <div className="xl:col-span-1">
+            <p className="text-base text-gray-500">
+              Cloudscape is your premier destination for modern cloud hosting solutions.
+              We empower businesses and individuals with cutting-edge technology and unparalleled support.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-brand-blue">
-                <span className="sr-only">Facebook</span>
-                <Facebook size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-brand-blue">
-                <span className="sr-only">Twitter</span>
-                <Twitter size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-brand-blue">
-                <span className="sr-only">Instagram</span>
-                <Instagram size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-brand-blue">
-                <span className="sr-only">LinkedIn</span>
-                <Linkedin size={20} />
-              </a>
+          </div>
+          
+          <div className="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
+            <div className="md:grid md:grid-cols-2 md:gap-8">
+              <div>
+                <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
+                  Legal
+                </h3>
+                <ul className="mt-4 space-y-4">
+                  <li>
+                    <Link to="/privacy-policy" className="text-base text-gray-500 hover:text-gray-900">
+                      Privacy Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/terms-of-service" className="text-base text-gray-500 hover:text-gray-900">
+                      Terms of Service
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/delete-instructions" className="text-base text-gray-500 hover:text-gray-900">
+                      Data Deletion
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div className="mt-12 md:mt-0">
+                <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
+                  Support
+                </h3>
+                <ul className="mt-4 space-y-4">
+                  <li>
+                    <a href="#" className="text-base text-gray-500 hover:text-gray-900">
+                      Help Center
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="text-base text-gray-500 hover:text-gray-900">
+                      Contact Us
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="text-base text-gray-500 hover:text-gray-900">
+                      Security
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="md:grid md:grid-cols-2 md:gap-8">
+              <div>
+                <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
+                  Company
+                </h3>
+                <ul className="mt-4 space-y-4">
+                  <li>
+                    <a href="#" className="text-base text-gray-500 hover:text-gray-900">
+                      About
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="text-base text-gray-500 hover:text-gray-900">
+                      Careers
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="text-base text-gray-500 hover:text-gray-900">
+                      Press
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div className="mt-12 md:mt-0">
+                <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
+                  Connect
+                </h3>
+                <ul className="mt-4 space-y-4">
+                  <li>
+                    <a href="#" className="text-base text-gray-500 hover:text-gray-900">
+                      Facebook
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="text-base text-gray-500 hover:text-gray-900">
+                      Twitter
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="text-base text-gray-500 hover:text-gray-900">
+                      Instagram
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
-          
-          {/* Hosting */}
-          <div>
-            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase mb-4">Hosting</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="#" className="text-gray-500 hover:text-brand-blue">Shared Hosting</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-500 hover:text-brand-blue">VPS Hosting</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-500 hover:text-brand-blue">Dedicated Servers</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-500 hover:text-brand-blue">Cloud Hosting</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-500 hover:text-brand-blue">Wordpress Hosting</a>
-              </li>
-            </ul>
-          </div>
-          
-          {/* Company */}
-          <div>
-            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase mb-4">Company</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="#" className="text-gray-500 hover:text-brand-blue">About Us</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-500 hover:text-brand-blue">Careers</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-500 hover:text-brand-blue">Blog</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-500 hover:text-brand-blue">Partnerships</a>
-              </li>
-              <li>
-                <Link to="/terms-of-service" className="text-gray-500 hover:text-brand-blue">Terms of Service</Link>
-              </li>
-              <li>
-                <Link to="/privacy-policy" className="text-gray-500 hover:text-brand-blue">Privacy Policy</Link>
-              </li>
-            </ul>
-          </div>
-          
-          {/* Support */}
-          <div>
-            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase mb-4">Support</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="#" className="text-gray-500 hover:text-brand-blue">Contact Us</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-500 hover:text-brand-blue">Knowledge Base</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-500 hover:text-brand-blue">FAQ</a>
-              </li>
-              <li className="flex items-center text-gray-500">
-                <Mail size={16} className="mr-2" />
-                <span>support@cloudscape.com</span>
-              </li>
-              <li className="flex items-center text-gray-500">
-                <PhoneCall size={16} className="mr-2" />
-                <span>+1 (555) 123-4567</span>
-              </li>
-            </ul>
-          </div>
         </div>
-        
-        <div className="mt-12 pt-8 border-t border-gray-200">
-          <p className="text-sm text-gray-400 text-center">
-            © {new Date().getFullYear()} Cloudscape. All rights reserved.
+        <div className="mt-12 border-t border-gray-200 pt-8 sm:flex sm:items-center sm:justify-between">
+          <p className="text-base text-gray-400">
+            &copy; {new Date().getFullYear()} Cloudscape, Inc. All rights reserved.
           </p>
+          <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-end">
+            <a href="#" className="text-base text-gray-400 hover:text-gray-500">
+              Terms
+            </a>
+            <a href="#" className="text-base text-gray-400 hover:text-gray-500">
+              Privacy
+            </a>
+          </div>
         </div>
       </div>
     </footer>
