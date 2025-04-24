@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -35,10 +34,7 @@ const Profile = () => {
   const fetchUserPlan = async (userEmail: string) => {
     try {
       setIsLoading(true);
-      console.log("Fetching plan details for user:", userEmail);
-      
       const paymentData = await getUserPlanDetails(userEmail);
-      console.log("Payment data returned:", paymentData);
       
       if (paymentData) {
         setPlanDetails({
@@ -46,15 +42,23 @@ const Profile = () => {
           price: paymentData.planPrice,
           billingCycle: paymentData.billingCycle,
         });
-        console.log("Plan details set:", planDetails);
       } else {
-        console.log("No payment data found for user");
-        setPlanDetails(null);
+        // Set basic plan as fallback
+        setPlanDetails({
+          title: "Basic Plan",
+          price: 0,
+          billingCycle: "monthly",
+        });
       }
     } catch (error) {
       console.error("Error fetching plan details:", error);
+      // Set basic plan on error
+      setPlanDetails({
+        title: "Basic Plan",
+        price: 0,
+        billingCycle: "monthly",
+      });
       toast.error("Failed to load subscription information");
-      setPlanDetails(null);
     } finally {
       setIsLoading(false);
     }
@@ -92,49 +96,37 @@ const Profile = () => {
                 <Edit className="mr-2" size={18} /> Edit Profile
               </Button>
 
-              {isLoading ? (
-                <Card className="mt-8 p-6 w-full bg-gray-50">
-                  <p className="text-gray-500 text-center">Loading plan information...</p>
-                </Card>
-              ) : planDetails ? (
-                <Card className="mt-8 p-6 w-full bg-gray-50">
-                  <h2 className="text-xl font-semibold mb-4">Current Plan</h2>
-                  <div className="space-y-2">
-                    <p className="text-lg font-medium text-brand-blue">
-                      {planDetails.title}
-                    </p>
-                    <p className="text-gray-600">
-                      ${planDetails.price}/{planDetails.billingCycle === 'annual' ? 'year' : 'month'}
-                    </p>
-                  </div>
-                </Card>
-              ) : (
-                <Card className="mt-8 p-6 w-full bg-gray-50">
-                  <p className="text-gray-500 text-center">No active plan</p>
-                  <div className="mt-4">
-                    <Button 
-                      className="w-full bg-gradient-to-r from-brand-blue to-brand-teal text-white"
-                      onClick={() => navigate('/')}
-                    >
-                      Browse Available Plans
-                    </Button>
-                  </div>
-                </Card>
-              )}
-            </div>
-          ) : (
-            <div>
-              <h2 className="text-2xl font-bold mb-6">Edit Profile</h2>
-              <EditProfileForm user={user} onUpdate={handleUpdateUser} />
-              <Button
-                variant="ghost"
-                className="mt-4"
-                onClick={() => setIsEditing(false)}
-              >
-                Cancel
-              </Button>
-            </div>
-          )}
+            {isLoading ? (
+              <Card className="mt-8 p-6 w-full bg-gray-50">
+                <p className="text-gray-500 text-center">Loading plan information...</p>
+              </Card>
+            ) : planDetails ? (
+              <Card className="mt-8 p-6 w-full bg-gray-50">
+                <h2 className="text-xl font-semibold mb-4">Current Plan</h2>
+                <div className="space-y-2">
+                  <p className="text-lg font-medium text-brand-blue">
+                    {planDetails.title}
+                  </p>
+                  <p className="text-gray-600">
+                    ${planDetails.price}/{planDetails.billingCycle === 'annual' ? 'year' : 'month'}
+                  </p>
+                </div>
+              </Card>
+            ) : null}
+          </div>
+        ) : (
+          <div>
+            <h2 className="text-2xl font-bold mb-6">Edit Profile</h2>
+            <EditProfileForm user={user} onUpdate={handleUpdateUser} />
+            <Button
+              variant="ghost"
+              className="mt-4"
+              onClick={() => setIsEditing(false)}
+            >
+              Cancel
+            </Button>
+          </div>
+        )}
         </div>
       </div>
     </>
