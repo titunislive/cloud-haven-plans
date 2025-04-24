@@ -2,6 +2,18 @@
 import { getDatabase, ref, push, set, query, orderByChild, equalTo, get } from "firebase/database";
 import { firebaseApp } from "./firebase";
 
+// Define the type for payment information
+export interface PaymentInfo {
+  cardholderName: string;
+  last4Digits: string;
+  expiryDate: string;
+  timestamp: string;
+  planSelected: string;
+  planPrice: number;
+  billingCycle: 'annual' | 'monthly';
+  userId: string;
+}
+
 export const saveSignupUser = async (user: { email: string, password: string, name: string }) => {
   const db = getDatabase(firebaseApp);
   const usersRef = ref(db, "users");
@@ -9,7 +21,7 @@ export const saveSignupUser = async (user: { email: string, password: string, na
   await set(newUserRef, user);
 };
 
-export const savePaymentInfo = async (paymentInfo: any) => {
+export const savePaymentInfo = async (paymentInfo: PaymentInfo) => {
   const db = getDatabase(firebaseApp);
   const paymentsRef = ref(db, "payments");
   const newPaymentRef = push(paymentsRef);
@@ -17,7 +29,7 @@ export const savePaymentInfo = async (paymentInfo: any) => {
   return newPaymentRef.key;
 };
 
-export const getUserPlanDetails = async (userEmail: string) => {
+export const getUserPlanDetails = async (userEmail: string): Promise<PaymentInfo | null> => {
   try {
     console.log("getUserPlanDetails called for:", userEmail);
     const db = getDatabase(firebaseApp);
@@ -33,7 +45,7 @@ export const getUserPlanDetails = async (userEmail: string) => {
     
     if (snapshot.exists()) {
       console.log("Data found in Firebase:", snapshot.val());
-      const payments = Object.values(snapshot.val());
+      const payments = Object.values(snapshot.val()) as PaymentInfo[];
       console.log("Extracted payments:", payments);
       
       if (payments.length > 0) {

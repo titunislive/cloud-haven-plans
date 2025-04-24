@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Edit } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import EditProfileForm from "@/components/EditProfileForm";
-import { getUserPlanDetails } from "@/lib/firebase-db";
+import { getUserPlanDetails, PaymentInfo } from "@/lib/firebase-db";
 import { toast } from "sonner";
 
 const Profile = () => {

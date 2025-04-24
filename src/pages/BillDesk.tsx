@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -9,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
-import { savePaymentInfo } from "@/lib/firebase-db";
+import { savePaymentInfo, PaymentInfo } from "@/lib/firebase-db";
 
 // Define the payment form schema with validations
 const formSchema = z.object({
@@ -66,7 +65,7 @@ const BillDesk = () => {
         : { email: "guest" };
       
       // Only store PCI-DSS compliant info (no full card numbers, no CVV)
-      const paymentInfo = {
+      const paymentInfo: PaymentInfo = {
         cardholderName: data.cardholderName,
         last4Digits: data.cardNumber.slice(-4),
         expiryDate: data.expiryDate,
