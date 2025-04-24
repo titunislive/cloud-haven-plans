@@ -8,9 +8,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
-import { getDatabase, ref, push, set } from "firebase/database";
-import { firebaseApp } from "@/lib/firebase";
 import Navbar from "@/components/Navbar";
+import { savePaymentInfo } from "@/lib/firebase-db";
 
 // Define the payment form schema with validations
 const formSchema = z.object({
@@ -80,14 +79,15 @@ const BillDesk = () => {
 
       console.log("Saving payment info:", paymentInfo);
 
-      // Store compliant payment info in Firebase
-      const db = getDatabase(firebaseApp);
-      const paymentsRef = ref(db, "payments");
-      const newPaymentRef = push(paymentsRef);
-      await set(newPaymentRef, paymentInfo);
-
-      toast.success("Payment information saved successfully!");
-      navigate("/profile", { replace: true });
+      // Store compliant payment info in Firebase using our utility function
+      const paymentId = await savePaymentInfo(paymentInfo);
+      
+      if (paymentId) {
+        toast.success("Payment information saved successfully!");
+        navigate("/profile", { replace: true });
+      } else {
+        throw new Error("Failed to save payment information");
+      }
     } catch (error) {
       console.error("Error saving payment info:", error);
       toast.error("Failed to save payment information.");

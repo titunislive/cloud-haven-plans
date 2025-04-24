@@ -7,8 +7,8 @@ import { Card } from "@/components/ui/card";
 import { Edit } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import EditProfileForm from "@/components/EditProfileForm";
-import { getDatabase, ref, query, orderByChild, equalTo, get } from "firebase/database";
-import { firebaseApp } from "@/lib/firebase";
+import { getUserPlanDetails } from "@/lib/firebase-db";
+import { toast } from "sonner";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -35,37 +35,25 @@ const Profile = () => {
   const fetchUserPlan = async (userEmail: string) => {
     try {
       setIsLoading(true);
-      const db = getDatabase(firebaseApp);
-      const paymentsRef = ref(db, "payments");
+      console.log("Fetching plan details for user:", userEmail);
       
-      // Fix: Query by correct field name that matches what's stored in BillDesk.tsx
-      const userPaymentsQuery = query(
-        paymentsRef,
-        orderByChild("userId"),
-        equalTo(userEmail)
-      );
+      const paymentData = await getUserPlanDetails(userEmail);
+      console.log("Payment data returned:", paymentData);
       
-      console.log("Fetching plan for user:", userEmail);
-      const snapshot = await get(userPaymentsQuery);
-      
-      if (snapshot.exists()) {
-        console.log("Payment data found:", snapshot.val());
-        // Get the most recent payment entry
-        const payments = Object.values(snapshot.val());
-        const latestPayment = payments[payments.length - 1] as any;
-        
+      if (paymentData) {
         setPlanDetails({
-          title: latestPayment.planSelected,
-          price: latestPayment.planPrice,
-          billingCycle: latestPayment.billingCycle,
+          title: paymentData.planSelected,
+          price: paymentData.planPrice,
+          billingCycle: paymentData.billingCycle,
         });
-        console.log("Set plan details:", latestPayment);
+        console.log("Plan details set:", planDetails);
       } else {
         console.log("No payment data found for user");
         setPlanDetails(null);
       }
     } catch (error) {
       console.error("Error fetching plan details:", error);
+      toast.error("Failed to load subscription information");
       setPlanDetails(null);
     } finally {
       setIsLoading(false);

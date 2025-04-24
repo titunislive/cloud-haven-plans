@@ -19,6 +19,7 @@ export const savePaymentInfo = async (paymentInfo: any) => {
 
 export const getUserPlanDetails = async (userEmail: string) => {
   try {
+    console.log("getUserPlanDetails called for:", userEmail);
     const db = getDatabase(firebaseApp);
     const paymentsRef = ref(db, "payments");
     const userPaymentsQuery = query(
@@ -27,12 +28,24 @@ export const getUserPlanDetails = async (userEmail: string) => {
       equalTo(userEmail)
     );
     
+    console.log("Executing query with userId:", userEmail);
     const snapshot = await get(userPaymentsQuery);
+    
     if (snapshot.exists()) {
+      console.log("Data found in Firebase:", snapshot.val());
       const payments = Object.values(snapshot.val());
-      // Return the most recent payment
-      return payments[payments.length - 1];
+      console.log("Extracted payments:", payments);
+      
+      if (payments.length > 0) {
+        // Return the most recent payment
+        const latestPayment = payments[payments.length - 1];
+        console.log("Returning latest payment:", latestPayment);
+        return latestPayment;
+      }
+    } else {
+      console.log("No data found for user:", userEmail);
     }
+    
     return null;
   } catch (error) {
     console.error("Error fetching user plan:", error);
